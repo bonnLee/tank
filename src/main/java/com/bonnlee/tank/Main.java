@@ -14,7 +14,7 @@
 ////        new Thread(() -> new Audio("audio/war1.wav").loop()).start();
 //
 //        for (int i = 0; i < 5; i++) {
-//            frame.enemyTanks.add(new Tank(50+i * 80,100, DirectionEnum.DOWN,GroupEnum.BAD,frame));
+//            frame.enemyTanks.add(new DefaultTank(50+i * 80,100, DirectionEnum.DOWN,GroupEnum.BAD,frame));
 //        }
 //
 //        while (true){

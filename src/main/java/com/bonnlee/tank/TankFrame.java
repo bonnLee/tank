@@ -1,28 +1,44 @@
 package com.bonnlee.tank;
 
-import com.bonnlee.tank.strategy.FourDirectionFire;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class TankFrame extends Frame {
 
     public static final int GAME_WIDTH = 800,GAME_HEIGHT = 600;  //整个游戏界面的宽度 和 高度
-    private Tank myTank = new Tank(200,400,DirectionEnum.UP,GroupEnum.GOOD,new FourDirectionFire(),this);
-    List<Bullet> bullets = new ArrayList<>();
-    List<Tank> enemyTanks = new ArrayList<>();
-    List<Explode> explodes = new ArrayList<>();
+    private DefaultTank myTank = new DefaultTank(200,400,DirectionEnum.UP,GroupEnum.GOOD,new FourDirectionFire(),this);
+    public List<BaseBullet> bullets = new ArrayList<>();
+    public List<BaseTank> enemyTanks = new ArrayList<>();
+    public List<BaseExplodes> explodes = new ArrayList<>();
+//    public GameFactory gf = new DefaultGameFactory();
+    public GameFactory gf = new RemouldGameFactory();  //第二种 产品族 风格
 
-//    public Bullet bullet = new Bullet(300,300,DirectionEnum.DOWN,this);
+//    public DefaultBullet bullet = new DefaultBullet(300,300,DirectionEnum.DOWN,this);
 
-     public TankFrame(){
-         this.setTitle("Tank War");
+
+    public List<BaseBullet> getBullets() {
+        return bullets;
+    }
+
+    public void setBullets(List<BaseBullet> bullets) {
+        this.bullets = bullets;
+    }
+
+    public List<BaseExplodes> getExplodes() {
+        return explodes;
+    }
+
+    public void setExplodes(List<BaseExplodes> explodes) {
+        this.explodes = explodes;
+    }
+
+    public TankFrame(){
+         this.setTitle("DefaultTank War");
          this.setSize(GAME_WIDTH,GAME_HEIGHT);
          this.setVisible(true);
          this.setResizable(false);
@@ -72,7 +88,7 @@ public class TankFrame extends Frame {
 
  //             注意：如果用这种增强for循环，那么在bullet实例中进行remove时
 //             将会报错，原因是底层的Iterator只支持自身遍历时进行删除，在外层不允许删除
-//         for (Bullet bullet : bullets) {
+//         for (DefaultBullet bullet : bullets) {
 //             bullet.paint(graphics);
 //         }
 
@@ -86,9 +102,9 @@ public class TankFrame extends Frame {
          for (int i = 0; i < bullets.size(); i++) {
              bullets.get(i).paint(graphics);
          }
-//         Iterator<Bullet> iterator = bullets.iterator();
+//         Iterator<DefaultBullet> iterator = bullets.iterator();
 //         while(iterator.hasNext()){
-//             Bullet bullect = iterator.next();
+//             DefaultBullet bullect = iterator.next();
 //             bullect.paint(graphics);
 //         }
 
@@ -164,13 +180,13 @@ public class TankFrame extends Frame {
          //设置主tank的方向
          private void setMainTankDirect() {
              if(!bL && !bR &&!bU &&!bD ){
-                 myTank.setMoving(false);
+                 myTank.moving = false;
              }else{
-                 myTank.setMoving(true);
-                 if(bL) myTank.setDir(DirectionEnum.LEFT);
-                 if(bR) myTank.setDir(DirectionEnum.RIGHT);
-                 if(bU) myTank.setDir(DirectionEnum.UP);
-                 if(bD) myTank.setDir(DirectionEnum.DOWN);
+                 myTank.moving = true;
+                 if(bL) myTank.dir = DirectionEnum.LEFT;
+                 if(bR) myTank.dir = DirectionEnum.RIGHT;
+                 if(bU) myTank.dir = DirectionEnum.UP;
+                 if(bD) myTank.dir = DirectionEnum.DOWN;
              }
          }
 

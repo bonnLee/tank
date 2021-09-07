@@ -1,13 +1,9 @@
 package com.bonnlee.tank;
 
-import com.bonnlee.tank.strategy.DefaultFire;
-import com.sun.org.apache.xpath.internal.operations.String;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.Properties;
 
 @Component
 public class TankRunner implements ApplicationRunner {
@@ -32,7 +28,7 @@ public class TankRunner implements ApplicationRunner {
 //        new Thread(() -> new Audio("audio/war1.wav").loop()).start();
 
         for (int i = 0; i < this.initialTankCount; i++) {
-            frame.enemyTanks.add(new Tank(50+i * 80,100, DirectionEnum.DOWN,GroupEnum.BAD,new DefaultFire(),frame));
+            frame.enemyTanks.add(new DefaultTank(50+i * 80,100, DirectionEnum.DOWN,GroupEnum.BAD,new DefaultFire(),frame));
         }
 
         while (true){

@@ -1,40 +1,25 @@
 package com.bonnlee.tank;
 
 //import com.bonnlee.tank.strategy.FireContext;
-import com.bonnlee.tank.strategy.FireStrategy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
 
 
-public class Tank {
+public class DefaultTank extends BaseTank{
 
-    int x,y,speed;
-    TankFrame tankFrame = null;  //引用上层
 
-    DirectionEnum dir;
 
-    private boolean moving = true;
-    private boolean isLived = true;
-
-    private GroupEnum group = GroupEnum.BAD;
-
-    public static int HEIGHT = ResourceManager.goodtankU.getHeight();
-    public static int WIDTH = ResourceManager.goodtankU.getWidth();
     private static final int SPEED = 2;
 
     private Random random = new Random();
 
     private FireStrategy fireStrategy;
 
-    public Rectangle rectangle = new Rectangle();
 
-    public Tank(int x, int y, DirectionEnum dir, GroupEnum group, FireStrategy fireStrategy, TankFrame tankFrame) {
+
+    public DefaultTank(int x, int y, DirectionEnum dir, GroupEnum group, FireStrategy fireStrategy, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -46,65 +31,6 @@ public class Tank {
         rectangle.setRect(x,y,WIDTH,HEIGHT);
     }
 
-    public FireStrategy getFireStrategy() {
-        return fireStrategy;
-    }
-
-    public void setFireStrategy(FireStrategy fireStrategy) {
-        this.fireStrategy = fireStrategy;
-    }
-
-    public boolean isMoving() {
-        return moving;
-    }
-
-    public void setMoving(boolean moving) {
-        this.moving = moving;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public DirectionEnum getDir() {
-        return dir;
-    }
-
-    public void setDir(DirectionEnum dir) {
-        this.dir = dir;
-    }
-
-    public GroupEnum getGroup() {
-        return group;
-    }
-
-    public void setGroup(GroupEnum group) {
-        this.group = group;
-    }
-
-    public TankFrame getTankFrame() {
-        return tankFrame;
-    }
 
     public void paint(Graphics graphics) {
 //        Color color = graphics.getColor();
@@ -169,9 +95,9 @@ public class Tank {
     }
 
     private void boundCheck() {
-        this.x = this.x > TankFrame.GAME_WIDTH - Tank.WIDTH - 2 ? TankFrame.GAME_WIDTH - Tank.WIDTH - 2 : this.x < 2 ?  2 : this.x;
+        this.x = this.x > TankFrame.GAME_WIDTH - DefaultTank.WIDTH - 2 ? TankFrame.GAME_WIDTH - DefaultTank.WIDTH - 2 : this.x < 2 ?  2 : this.x;
 
-        this.y = this.y > TankFrame.GAME_HEIGHT - Tank.HEIGHT - 2 ? TankFrame.GAME_HEIGHT - Tank.HEIGHT - 2 : this.y < 28 ?  28 : this.y;
+        this.y = this.y > TankFrame.GAME_HEIGHT - DefaultTank.HEIGHT - 2 ? TankFrame.GAME_HEIGHT - DefaultTank.HEIGHT - 2 : this.y < 28 ?  28 : this.y;
     }
 
     //随机取4个方向
@@ -183,7 +109,5 @@ public class Tank {
         fireStrategy.fire(this);
     }
 
-    public void die() {
-        this.isLived = false;
-    }
+
 }

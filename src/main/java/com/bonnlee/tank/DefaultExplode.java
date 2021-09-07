@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-public class Explode {
+public class DefaultExplode extends BaseExplodes{
     int x,y;
     TankFrame tankFrame = null;  //引用上层
 
@@ -14,7 +14,7 @@ public class Explode {
     private static final int SPEED = 2;
 
 
-    public Explode(int x, int y, TankFrame tankFrame) {
+    public DefaultExplode(int x, int y, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.tankFrame = tankFrame;
@@ -42,8 +42,8 @@ public class Explode {
     }
 
 
+    @Override
     public void paint(Graphics graphics) {
-
 
         graphics.drawImage(ResourceManager.explodes[explodeStep++],x,y,null);
         if (explodeStep >= ResourceManager.explodes.length)

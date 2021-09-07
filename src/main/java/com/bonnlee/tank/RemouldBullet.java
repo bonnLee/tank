@@ -1,12 +1,10 @@
 package com.bonnlee.tank;
 
-import com.bonnlee.tank.DirectionEnum;
-import com.bonnlee.tank.TankFrame;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Bullet {
+public class RemouldBullet extends BaseBullet {
+
     int x,y;
     TankFrame tankFrame = null;  //引用上层
     DirectionEnum dir;
@@ -21,13 +19,13 @@ public class Bullet {
 
     public Rectangle rectangle = new Rectangle();
 
-//    public Bullet(int x, int y, DirectionEnum dir) {
+//    public DefaultBullet(int x, int y, DirectionEnum dir) {
 //        this.x = x;
 //        this.y = y;
 //        this.dir = dir;
 //    }
 
-    public Bullet(int x, int y, DirectionEnum dir,GroupEnum group,TankFrame tankFrame) {
+    public RemouldBullet(int x, int y, DirectionEnum dir, GroupEnum group, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -39,7 +37,7 @@ public class Bullet {
         this.tankFrame.bullets.add(this);
 
         if (group == GroupEnum.GOOD)
-        new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
+            new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
     }
 
     public int getX() {
@@ -74,6 +72,7 @@ public class Bullet {
         this.group = group;
     }
 
+    @Override
     public void paint(Graphics graphics) {
         //考虑tank的顺序，由于用的是同一个graphics对象，而这个对象在tank类调用时默认的为black，
         //所以需要先设置color，再填充bullet
@@ -81,26 +80,26 @@ public class Bullet {
             tankFrame.bullets.remove(this);
         }
 
-//        Color color = graphics.getColor();
-//        graphics.setColor(Color.RED);
-//        graphics.fillOval(x,y,WIDTH,HEIGHT);  //设置子弹为 圆形
-//        graphics.setColor(color);
-        BufferedImage bf = null;
-        switch(dir){
-            case LEFT:
-                bf = ResourceManager.bullectL;
-                break;
-            case RIGHT:
-                bf = ResourceManager.bullectR;
-                break;
-            case UP:
-                bf = ResourceManager.bullectU;
-                break;
-            case DOWN:
-                bf = ResourceManager.bullectD;
-                break;
-        }
-        graphics.drawImage(bf,x,y,null);
+        Color color = graphics.getColor();
+        graphics.setColor(Color.RED);
+        graphics.fillOval(x,y,WIDTH,HEIGHT);  //设置子弹为 圆形
+        graphics.setColor(color);
+//        BufferedImage bf = null;
+//        switch(dir){
+//            case LEFT:
+//                bf = ResourceManager.bullectL;
+//                break;
+//            case RIGHT:
+//                bf = ResourceManager.bullectR;
+//                break;
+//            case UP:
+//                bf = ResourceManager.bullectU;
+//                break;
+//            case DOWN:
+//                bf = ResourceManager.bullectD;
+//                break;
+//        }
+//        graphics.drawImage(bf,x,y,null);
 
         move();
     }
@@ -129,22 +128,25 @@ public class Bullet {
 
     }
 
-    public void collideWith(Tank tank) {
+    @Override
+    public void collideWith(BaseTank tank) {
         //判断子弹是否是自己方打出的
-        if (this.group == tank.getGroup()) return;
+        if (this.group == tank.group) return;
 
         Rectangle tankRect = tank.rectangle;
         if (rectangle.intersects(tankRect)){  //两矩形相交 证明相撞
             tank.die();
             this.die();
             //相交后 发生爆炸
-            int bX = tank.getX() + Tank.WIDTH / 2 - Explode.WIDTH / 2;
-            int bY = tank.getY() + Tank.HEIGHT / 2 - Explode.HEIGHT / 2;
-            tankFrame.explodes.add(new Explode(bX,bY,tankFrame));
+            int bX = tank.x + DefaultTank.WIDTH / 2 - DefaultExplode.WIDTH / 2;
+            int bY = tank.y + DefaultTank.HEIGHT / 2 - DefaultExplode.HEIGHT / 2;
+            tankFrame.explodes.add(tankFrame.gf.createExplodes(bX,bY,tankFrame));
         }
     }
 
     private void die() {
         this.isLived = false;
     }
+
+
 }

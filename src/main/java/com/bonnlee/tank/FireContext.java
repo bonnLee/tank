@@ -1,6 +1,6 @@
 //package com.bonnlee.tank.strategy;
 //
-//import com.bonnlee.tank.Tank;
+//import com.bonnlee.tank.DefaultTank;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Component;
 //
@@ -20,7 +20,7 @@
 //        FIRE_STRATEGY_MAP.put("1",defaultFire);
 //    }
 //
-//    public void fire(Tank tank){
+//    public void fire(DefaultTank tank){
 //        FireStrategy fireStrategy = FIRE_STRATEGY_MAP.get(tank.getFireStrategy());
 //        fireStrategy.fire(tank);
 //    }
