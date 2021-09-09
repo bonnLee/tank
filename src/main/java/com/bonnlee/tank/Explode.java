@@ -1,5 +1,7 @@
 package com.bonnlee.tank;
 
+import com.bonnlee.GameModel;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -7,17 +9,17 @@ import java.util.Random;
 public class Explode {
     int x,y;
     TankFrame tankFrame = null;  //引用上层
-
+    GameModel gm;
 
     public static int HEIGHT = ResourceManager.explodes[0].getHeight();
     public static int WIDTH = ResourceManager.explodes[0].getWidth();
     private static final int SPEED = 2;
 
 
-    public Explode(int x, int y, TankFrame tankFrame) {
+    public Explode(int x, int y, GameModel gm) {
         this.x = x;
         this.y = y;
-        this.tankFrame = tankFrame;
+        this.gm = gm;
 
         new Thread(() -> new Audio("audio/explode.wav").play()).start();
     }
@@ -47,7 +49,7 @@ public class Explode {
 
         graphics.drawImage(ResourceManager.explodes[explodeStep++],x,y,null);
         if (explodeStep >= ResourceManager.explodes.length)
-            tankFrame.explodes.remove(this);
+            gm.explodes.remove(this);
 
     }
 

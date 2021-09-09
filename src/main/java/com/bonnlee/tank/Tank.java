@@ -1,6 +1,7 @@
 package com.bonnlee.tank;
 
 //import com.bonnlee.tank.strategy.FireContext;
+import com.bonnlee.GameModel;
 import com.bonnlee.tank.strategy.FireStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,12 +16,12 @@ import java.util.Random;
 public class Tank {
 
     int x,y,speed;
-    TankFrame tankFrame = null;  //引用上层
+    public GameModel gm = null;  //引用上层
 
     DirectionEnum dir;
 
-    private boolean moving = true;
-    private boolean isLived = true;
+    public boolean moving = true;
+    public boolean isLived = true;
 
     private GroupEnum group = GroupEnum.BAD;
 
@@ -34,13 +35,13 @@ public class Tank {
 
     public Rectangle rectangle = new Rectangle();
 
-    public Tank(int x, int y, DirectionEnum dir, GroupEnum group, FireStrategy fireStrategy, TankFrame tankFrame) {
+    public Tank(int x, int y, DirectionEnum dir, GroupEnum group, FireStrategy fireStrategy, GameModel gameModel) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
         this.fireStrategy = fireStrategy;
-        this.tankFrame = tankFrame;
+        this.gm = gameModel;
 
         //初始化自身的rectangle
         rectangle.setRect(x,y,WIDTH,HEIGHT);
@@ -102,9 +103,6 @@ public class Tank {
         this.group = group;
     }
 
-    public TankFrame getTankFrame() {
-        return tankFrame;
-    }
 
     public void paint(Graphics graphics) {
 //        Color color = graphics.getColor();
@@ -112,7 +110,7 @@ public class Tank {
 //        graphics.fillRect(x,y,50,50);
 //        graphics.setColor(color);
         if (!isLived)
-            tankFrame.enemyTanks.remove(this);
+            gm.enemyTanks.remove(this);
         BufferedImage bf = null;
         switch(dir){
             case LEFT:

@@ -12,7 +12,7 @@ public class FourDirectionFire implements FireStrategy {
 
         DirectionEnum[] values = DirectionEnum.values();
         for (DirectionEnum value : values) {
-            new Bullet(bullect_X, bullect_Y, value,tank.getGroup(),tank.getTankFrame());
+            new Bullet(bullect_X, bullect_Y, value,tank.getGroup(),tank.gm);
         }
     }
 }
