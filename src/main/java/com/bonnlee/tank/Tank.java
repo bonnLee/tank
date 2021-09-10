@@ -1,7 +1,6 @@
 package com.bonnlee.tank;
 
 //import com.bonnlee.tank.strategy.FireContext;
-import com.bonnlee.tank.strategy.GameModel;
 import com.bonnlee.tank.strategy.FireStrategy;
 import lombok.Data;
 
@@ -15,12 +14,14 @@ public class Tank extends GameObject{
 
     int speed;
 
+    public int preX,preY; //记录上次位置，用来两个tank碰撞后回退
+
     DirectionEnum dir;
 
     public boolean moving = true;
     public boolean isLived = true;
 
-    private GroupEnum group = GroupEnum.BAD;
+    GroupEnum group = GroupEnum.BAD;
 
     public static int HEIGHT = ResourceManager.goodtankU.getHeight();
     public static int WIDTH = ResourceManager.goodtankU.getWidth();
@@ -75,6 +76,9 @@ public class Tank extends GameObject{
     }
 
     private void move() {
+        preX = x;
+        preY = y;  //记录当前位置
+
         //静止时 不移动tank
         if(!moving) return;
 
@@ -124,5 +128,11 @@ public class Tank extends GameObject{
 
     public void die() {
         this.isLived = false;
+    }
+
+    public void stop(){
+        //回退位置
+        x = preX;
+        y = preY;
     }
 }

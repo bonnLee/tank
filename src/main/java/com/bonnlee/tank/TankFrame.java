@@ -1,7 +1,5 @@
 package com.bonnlee.tank;
 
-import com.bonnlee.tank.strategy.GameModel;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -12,7 +10,7 @@ import java.awt.event.WindowEvent;
 public class TankFrame extends Frame {
     GameModel gm = new GameModel();
 
-    public static final int GAME_WIDTH = 800,GAME_HEIGHT = 600;  //整个游戏界面的宽度 和 高度
+    public static final int GAME_WIDTH = 1000,GAME_HEIGHT = 800;  //整个游戏界面的宽度 和 高度
 
 
 //    public Bullet bullet = new Bullet(300,300,DirectionEnum.DOWN,this);

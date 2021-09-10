@@ -1,6 +1,7 @@
-package com.bonnlee.tank.strategy;
+package com.bonnlee.tank;
 
-import com.bonnlee.tank.*;
+import com.bonnlee.tank.chainofresponsibility.Collider;
+import com.bonnlee.tank.chainofresponsibility.ColliderChain;
 import com.bonnlee.tank.strategy.DefaultFire;
 import com.bonnlee.tank.strategy.FourDirectionFire;
 
@@ -14,6 +15,8 @@ public class GameModel {
 
 
     private  int initialTankCount;
+
+    private Collider colliderChain = new ColliderChain();
 
 //    public List<Bullet> bullets = new ArrayList<>();
 //    public List<Tank> enemyTanks = new ArrayList<>();
@@ -50,42 +53,24 @@ public class GameModel {
         myTank.paint(graphics);  //交给tank类 自己绘制
 
 
-        //             注意：如果用这种增强for循环，那么在bullet实例中进行remove时
-//             将会报错，原因是底层的Iterator只支持自身遍历时进行删除，在外层不允许删除
-//         for (Bullet bullet : bullets) {
-//             bullet.paint(graphics);
-//         }
+        /*
+         注意：如果用这种增强for循环，那么在bullet实例中进行remove时
+         将会报错，原因是底层的Iterator只支持自身遍历时进行删除，在外层不允许删除
+         */
 
-        //碰撞检测：子弹攻击到敌方坦克，不再绘制
-//        for (int i = 0; i < bullets.size(); i++) {
-//            for (int j = 0; j < enemyTanks.size(); j++) {
-//                bullets.get(i).collideWith(enemyTanks.get(j));
-//            }
-//        }
 
+
+        //绘制
         for (int i = 0; i < objectList.size(); i++) {
             objectList.get(i).paint(graphics);
         }
 
-//        for (int i = 0; i < bullets.size(); i++) {
-//            bullets.get(i).paint(graphics);
-//        }
-////         Iterator<Bullet> iterator = bullets.iterator();
-////         while(iterator.hasNext()){
-////             Bullet bullect = iterator.next();
-////             bullect.paint(graphics);
-////         }
-//
-//        //绘制敌方tank
-//        for (int i = 0; i < enemyTanks.size(); i++) {
-//            enemyTanks.get(i).paint(graphics);
-//        }
-//
-//        //绘制爆炸效果
-//        for (int i = 0; i < explodes.size(); i++) {
-//            explodes.get(i).paint(graphics);
-//        }
-
+        //碰撞检测
+        for (int i = 0; i < objectList.size(); i++) {
+            for (int j = i+1; j < objectList.size(); j++) {
+                colliderChain.doCollide(objectList.get(i),objectList.get(j));
+            }
+        }
 
     }
 }

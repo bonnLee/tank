@@ -1,6 +1,5 @@
 package com.bonnlee.tank;
 
-import com.bonnlee.tank.strategy.GameModel;
 import lombok.Data;
 
 import java.awt.*;
