@@ -1,4 +1,4 @@
-package com.bonnlee;
+package com.bonnlee.tank.strategy;
 
 import com.bonnlee.tank.*;
 import com.bonnlee.tank.strategy.DefaultFire;
@@ -15,9 +15,11 @@ public class GameModel {
 
     private  int initialTankCount;
 
-    public List<Bullet> bullets = new ArrayList<>();
-    public List<Tank> enemyTanks = new ArrayList<>();
-    public List<Explode> explodes = new ArrayList<>();
+//    public List<Bullet> bullets = new ArrayList<>();
+//    public List<Tank> enemyTanks = new ArrayList<>();
+//    public List<Explode> explodes = new ArrayList<>();
+
+    public List<GameObject> objectList = new ArrayList<>();
 
     public Tank myTank = new Tank(200,400, DirectionEnum.UP, GroupEnum.GOOD,new FourDirectionFire(),this);
 
@@ -32,7 +34,7 @@ public class GameModel {
 
         //初始化地方tank
         for (int i = 0; i < this.initialTankCount; i++) {
-            enemyTanks.add(new Tank(50+i * 80,100, DirectionEnum.DOWN,GroupEnum.BAD,new DefaultFire(),this));
+            objectList.add(new Tank(50+i * 80,100, DirectionEnum.DOWN,GroupEnum.BAD,new DefaultFire(),this));
         }
     }
 
@@ -42,8 +44,8 @@ public class GameModel {
         //width填充物的宽度，height高度
         Color color = graphics.getColor();
         graphics.setColor(Color.WHITE);
-        graphics.drawString("子弹的数量"+bullets.size(),10,60);
-        graphics.drawString("敌人的数量"+enemyTanks.size(),10,80);
+//        graphics.drawString("子弹的数量"+bullets.size(),10,60);
+//        graphics.drawString("敌人的数量"+enemyTanks.size(),10,80);
         graphics.setColor(color);
         myTank.paint(graphics);  //交给tank类 自己绘制
 
@@ -55,29 +57,35 @@ public class GameModel {
 //         }
 
         //碰撞检测：子弹攻击到敌方坦克，不再绘制
-        for (int i = 0; i < bullets.size(); i++) {
-            for (int j = 0; j < enemyTanks.size(); j++) {
-                bullets.get(i).collideWith(enemyTanks.get(j));
-            }
+//        for (int i = 0; i < bullets.size(); i++) {
+//            for (int j = 0; j < enemyTanks.size(); j++) {
+//                bullets.get(i).collideWith(enemyTanks.get(j));
+//            }
+//        }
+
+        for (int i = 0; i < objectList.size(); i++) {
+            objectList.get(i).paint(graphics);
         }
 
-        for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).paint(graphics);
-        }
-//         Iterator<Bullet> iterator = bullets.iterator();
-//         while(iterator.hasNext()){
-//             Bullet bullect = iterator.next();
-//             bullect.paint(graphics);
-//         }
+//        for (int i = 0; i < bullets.size(); i++) {
+//            bullets.get(i).paint(graphics);
+//        }
+////         Iterator<Bullet> iterator = bullets.iterator();
+////         while(iterator.hasNext()){
+////             Bullet bullect = iterator.next();
+////             bullect.paint(graphics);
+////         }
+//
+//        //绘制敌方tank
+//        for (int i = 0; i < enemyTanks.size(); i++) {
+//            enemyTanks.get(i).paint(graphics);
+//        }
+//
+//        //绘制爆炸效果
+//        for (int i = 0; i < explodes.size(); i++) {
+//            explodes.get(i).paint(graphics);
+//        }
 
-        //绘制敌方tank
-        for (int i = 0; i < enemyTanks.size(); i++) {
-            enemyTanks.get(i).paint(graphics);
-        }
 
-        //绘制爆炸效果
-        for (int i = 0; i < explodes.size(); i++) {
-            explodes.get(i).paint(graphics);
-        }
     }
 }

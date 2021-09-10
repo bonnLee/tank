@@ -1,15 +1,13 @@
 package com.bonnlee.tank;
 
-import com.bonnlee.GameModel;
-import com.bonnlee.tank.DirectionEnum;
-import com.bonnlee.tank.TankFrame;
+import com.bonnlee.tank.strategy.GameModel;
+import lombok.Data;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Bullet {
-    int x,y;
-    TankFrame tankFrame = null;  //引用上层
+@Data
+public class Bullet extends GameObject{
     DirectionEnum dir;
 
     private GroupEnum group = GroupEnum.BAD;
@@ -39,7 +37,7 @@ public class Bullet {
 
         rectangle.setRect(x,y,WIDTH,HEIGHT);
 
-        this.gm.bullets.add(this);
+        this.gm.objectList.add(this);
 
         if (group == GroupEnum.GOOD)
         new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
@@ -81,7 +79,7 @@ public class Bullet {
         //考虑tank的顺序，由于用的是同一个graphics对象，而这个对象在tank类调用时默认的为black，
         //所以需要先设置color，再填充bullet
         if(!isLived){
-            gm.bullets.remove(this);
+            gm.objectList.remove(this);
         }
 
 //        Color color = graphics.getColor();
@@ -141,9 +139,9 @@ public class Bullet {
             tank.die();
             this.die();
             //相交后 发生爆炸
-            int bX = tank.getX() + Tank.WIDTH / 2 - Explode.WIDTH / 2;
-            int bY = tank.getY() + Tank.HEIGHT / 2 - Explode.HEIGHT / 2;
-            gm.explodes.add(new Explode(bX,bY,this.gm));
+            int bX = tank.x + Tank.WIDTH / 2 - Explode.WIDTH / 2;
+            int bY = tank.y + Tank.HEIGHT / 2 - Explode.HEIGHT / 2;
+            gm.objectList.add(new Explode(bX,bY,this.gm));
         }
     }
 

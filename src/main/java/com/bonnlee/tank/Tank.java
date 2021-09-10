@@ -1,22 +1,19 @@
 package com.bonnlee.tank;
 
 //import com.bonnlee.tank.strategy.FireContext;
-import com.bonnlee.GameModel;
+import com.bonnlee.tank.strategy.GameModel;
 import com.bonnlee.tank.strategy.FireStrategy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.Data;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
 
 
-public class Tank {
+@Data
+public class Tank extends GameObject{
 
-    int x,y,speed;
-    public GameModel gm = null;  //引用上层
+    int speed;
 
     DirectionEnum dir;
 
@@ -47,70 +44,15 @@ public class Tank {
         rectangle.setRect(x,y,WIDTH,HEIGHT);
     }
 
-    public FireStrategy getFireStrategy() {
-        return fireStrategy;
-    }
 
-    public void setFireStrategy(FireStrategy fireStrategy) {
-        this.fireStrategy = fireStrategy;
-    }
-
-    public boolean isMoving() {
-        return moving;
-    }
-
-    public void setMoving(boolean moving) {
-        this.moving = moving;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public DirectionEnum getDir() {
-        return dir;
-    }
-
-    public void setDir(DirectionEnum dir) {
-        this.dir = dir;
-    }
-
-    public GroupEnum getGroup() {
-        return group;
-    }
-
-    public void setGroup(GroupEnum group) {
-        this.group = group;
-    }
-
-
+    @Override
     public void paint(Graphics graphics) {
 //        Color color = graphics.getColor();
 //        graphics.setColor(Color.RED);
 //        graphics.fillRect(x,y,50,50);
 //        graphics.setColor(color);
         if (!isLived)
-            gm.enemyTanks.remove(this);
+            gm.objectList.remove(this);
         BufferedImage bf = null;
         switch(dir){
             case LEFT:
@@ -129,7 +71,6 @@ public class Tank {
         graphics.drawImage(bf,x,y,null);
 
         move();
-
 
     }
 

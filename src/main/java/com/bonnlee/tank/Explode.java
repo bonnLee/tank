@@ -1,14 +1,13 @@
 package com.bonnlee.tank;
 
-import com.bonnlee.GameModel;
+import com.bonnlee.tank.strategy.GameModel;
+import lombok.Data;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.Random;
 
-public class Explode {
-    int x,y;
-    TankFrame tankFrame = null;  //引用上层
+@Data
+public class Explode extends GameObject{
+
     GameModel gm;
 
     public static int HEIGHT = ResourceManager.explodes[0].getHeight();
@@ -27,30 +26,11 @@ public class Explode {
     private int explodeStep;
 
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-
+    @Override
     public void paint(Graphics graphics) {
-
-
         graphics.drawImage(ResourceManager.explodes[explodeStep++],x,y,null);
         if (explodeStep >= ResourceManager.explodes.length)
-            gm.explodes.remove(this);
-
+            gm.objectList.remove(this);
     }
 
 }
